@@ -27,13 +27,12 @@ class Event < ApplicationRecord
       start_at: start_at
     }
   end
+
   private
 
   def start_at_should_be_before_end_at
     return unless start_at && end_at
 
-    if start_at >= end_at
-      errors.add(:start_at, "は終了時間よりも前に設定してください")
-    end
+    errors.add(:start_at, 'は終了時間よりも前に設定してください') if start_at >= end_at
   end
 end

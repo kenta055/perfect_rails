@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   rescue_from Exception, with: :error500
   rescue_from ActiveRecord::RecordNotFound, ActionController::RoutingError, with: :error404
 
-  def error404(e = nil)
-    render "error404", status: 404, formats: [:html]
+  def error404(_e = nil)
+    render 'error404', status: 404, formats: [:html]
   end
 
   def error500(e = nil)
@@ -22,11 +22,13 @@ class ApplicationController < ActionController::Base
 
   def current_user
     return unless session[:user_id]
+
     @current_user ||= User.find(session[:user_id])
   end
 
   def authenticate
     return if logged_in?
-    redirect_to root_path, alert: "ログインしてください"
+
+    redirect_to root_path, alert: 'ログインしてください'
   end
 end
